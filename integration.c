@@ -4,6 +4,19 @@
 #include <omp.h>
 #include <mpi.h>
 
+typedef struct
+{
+    double a;
+    double b;
+    double tol;
+    double whole;
+} Task;
+
+#define TAG_WORK 1
+#define TAG_RESULT 2
+#define TAG_NEW_TASK 3
+#define TAG_STOP 4
+
 typedef double (*func_ptr)(double);
 
 double fx0(const double x) { return sin(x) + 0.5 * (cos(3 * x)); }
@@ -77,6 +90,37 @@ int main(int argc, char **argv)
             double end_time = MPI_Wtime();
             printf("Serial Result: %e\n", result);
             printf("Time Taken: %f seconds\n", end_time - start_time);
+        }
+    }
+
+    if (mode == 1)
+    {
+        double start_time = MPI_Wtime();
+
+        int K = size;
+        double h = 1.0 / K;
+        double local_sum = 0.0;
+
+        for (int i = rank; i < K; i += size)
+        {
+            double a = i * h;
+            double b = (i + 1) * h;
+            double mid = (a + b) / 2.0;
+            double initial_estimate = (h / 6.0) * (f(a) + 4.0 * f(mid) + f(b));
+
+            local_sum += adaptive_simpson(f, a, b, tol / K, initial_estimate);
+        }
+
+        double global_sum = 0.0;
+        MPI_Reduce(&local_sum, &global_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+        double end_time = MPI_Wtime();
+
+        if (rank == 0)
+        {
+            printf("Mode 1 Result: %e\n", global_sum);
+            printf("Mode 1 Time: %fs\n", end_time - start_time);
+            printf("K value used: %d\n", K);
         }
     }
 
