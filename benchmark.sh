@@ -16,6 +16,12 @@ for func in "${FUNCTIONS[@]}"; do
     for mode in "${MODES[@]}"; do
         for tol in "${TOLERANCES[@]}"; do
             for p in "${PROCESSES[@]}"; do
+                if [ "$mode" -eq 2 ] && [ "$p" -eq 1 ]; then
+                    echo "Skipping Mode 2 for P=1 (requires at least 2 processes)"
+                    continue
+                fi
+    
+
                 echo "Testing: Func $func, Mode $mode, Tol $tol, P $p"
                 total_time=0
                 

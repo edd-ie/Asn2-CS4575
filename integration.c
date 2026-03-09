@@ -8,23 +8,23 @@ typedef struct
 {
     double a;     // Left bound
     double b;     // Right bound
-    double tol;   // Current tolerance for this interval
+    double tol;   // tolerance for this interval
     double whole; // Simpson estimate for the whole interval [a, b]
 } Task;
 
 #define TAG_WORK 1         // Master to Worker: send task
-#define TAG_RESULT 2       // Worker to Master: send accepted partial integral
+#define TAG_RESULT 2       // Worker to Master: send result
 #define TAG_NEW_TASK 3     // Worker to Master: send split sub-interval
 #define TAG_STOP 4         // Master to Worker: signal termination
 #define TAG_WORK_REQUEST 5 // Worker to Master: request work
 
-#define MAX_TASKS 10000 // Sufficient stack size for oscillatory functions
+#define MAX_TASKS 10000
 
 typedef double (*func_ptr)(double);
 
 Task task_stack[MAX_TASKS];
 int stack_top = -1;
-MPI_Datatype task_type; // Custom MPI type for Task struct
+MPI_Datatype task_type;
 
 void push_task(Task t)
 {
@@ -45,10 +45,21 @@ Task pop_task()
 
 /* Functions to integrate*/
 double fx0(const double x) { return sin(x) + 0.5 * cos(3 * x); }
-double fx1(const double x) { return 1.0 / (1.0 + 100.0 * pow((x - 0.3), 2)); }
-double fx2(const double x) { return sin(200.0 * x) * exp(-x); }
+double fx1(const double x)
+{
+    for (volatile int i = 0; i < 500; i++)
+        ; // Work to slow it down for testing
+    return 1.0 / (1.0 + 100.0 * pow((x - 0.3), 2));
+}
 
-/* Serial Adaptive Simpson's Rule*/
+double fx2(const double x)
+{
+    for (volatile int i = 0; i < 500; i++)
+        ; // Work to slow it down for testing
+    return sin(200.0 * x) * exp(-x);
+}
+
+/* Adaptive Simpson's Rule*/
 double adaptive_simpson(func_ptr f, double a, double b, double tol, double whole)
 {
     double m = (a + b) / 2.0;
@@ -56,19 +67,16 @@ double adaptive_simpson(func_ptr f, double a, double b, double tol, double whole
     double left_simpson = h_half * (f(a) + 4.0 * f((a + m) / 2.0) + f(m));
     double right_simpson = h_half * (f(m) + 4.0 * f((m + b) / 2.0) + f(b));
 
-    // Compare two estimates for error approximation
+    // Compare for error approximation
     if (fabs(left_simpson + right_simpson - whole) <= 15.0 * tol)
     {
-        // Apply 15.0 factor for error term adjustment
         return left_simpson + right_simpson + (left_simpson + right_simpson - whole) / 15.0;
     }
 
-    // Split the interval and continue
     return adaptive_simpson(f, a, m, tol / 2.0, left_simpson) +
            adaptive_simpson(f, m, b, tol / 2.0, right_simpson);
 }
 
-/* Worker logic for dynamic mode*/
 void process_task(Task t, func_ptr f)
 {
     double m = (t.a + t.b) / 2.0;
