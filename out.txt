@@ -1,0 +1,90 @@
+rm -f integration
+mpicc -fopenmp -Wall -O3 integration.c -lm -o integration
+Testing: Func 1, Mode 1, Tol 1e-6, P 1
+  Run 1 (Warm-up): 0.000225 s
+  Average Time: 0.000230 s
+Testing: Func 1, Mode 1, Tol 1e-6, P 2
+  Run 1 (Warm-up): 0.000348 s
+  Average Time: 0.000188 s
+Testing: Func 1, Mode 1, Tol 1e-6, P 4
+  Run 1 (Warm-up): 0.000093 s
+  Average Time: 0.000210 s
+Testing: Func 1, Mode 1, Tol 1e-6, P 8
+  Run 1 (Warm-up): 0.000271 s
+  Average Time: 0.000380 s
+Testing: Func 1, Mode 1, Tol 1e-8, P 1
+  Run 1 (Warm-up): 0.000721 s
+  Average Time: 0.000745 s
+Testing: Func 1, Mode 1, Tol 1e-8, P 2
+  Run 1 (Warm-up): 0.000568 s
+  Average Time: 0.000583 s
+Testing: Func 1, Mode 1, Tol 1e-8, P 4
+  Run 1 (Warm-up): 0.000397 s
+  Average Time: 0.000359 s
+Testing: Func 1, Mode 1, Tol 1e-8, P 8
+  Run 1 (Warm-up): 0.000898 s
+  Average Time: 0.000456 s
+Skipping Mode 2 for P=1 (requires at least 2 processes)
+Testing: Func 1, Mode 2, Tol 1e-6, P 2
+  Run 1 (Warm-up): 0.000493 s
+  Average Time: 0.000417 s
+Testing: Func 1, Mode 2, Tol 1e-6, P 4
+  Run 1 (Warm-up): 0.000414 s
+  Average Time: 0.000361 s
+Testing: Func 1, Mode 2, Tol 1e-6, P 8
+  Run 1 (Warm-up): 0.000693 s
+  Average Time: 0.002039 s
+Skipping Mode 2 for P=1 (requires at least 2 processes)
+Testing: Func 1, Mode 2, Tol 1e-8, P 2
+  Run 1 (Warm-up): 0.001056 s
+  Average Time: 0.000963 s
+Testing: Func 1, Mode 2, Tol 1e-8, P 4
+  Run 1 (Warm-up): 0.001075 s
+  Average Time: 0.000873 s
+Testing: Func 1, Mode 2, Tol 1e-8, P 8
+  Run 1 (Warm-up): 0.003147 s
+  Average Time: 0.002676 s
+Testing: Func 2, Mode 1, Tol 1e-6, P 1
+  Run 1 (Warm-up): 0.001021 s
+  Average Time: 0.000051 s
+Testing: Func 2, Mode 1, Tol 1e-6, P 2
+  Run 1 (Warm-up): 0.000077 s
+  Average Time: 0.000140 s
+Testing: Func 2, Mode 1, Tol 1e-6, P 4
+  Run 1 (Warm-up): 0.000061 s
+  Average Time: 0.000148 s
+Testing: Func 2, Mode 1, Tol 1e-6, P 8
+  Run 1 (Warm-up): 0.000619 s
+  Average Time: 0.000308 s
+Testing: Func 2, Mode 1, Tol 1e-8, P 1
+  Run 1 (Warm-up): 0.000108 s
+  Average Time: 0.000100 s
+Testing: Func 2, Mode 1, Tol 1e-8, P 2
+  Run 1 (Warm-up): 0.000079 s
+  Average Time: 0.000173 s
+Testing: Func 2, Mode 1, Tol 1e-8, P 4
+  Run 1 (Warm-up): 0.000354 s
+  Average Time: 0.000181 s
+Testing: Func 2, Mode 1, Tol 1e-8, P 8
+  Run 1 (Warm-up): 0.000253 s
+  Average Time: 0.000391 s
+Skipping Mode 2 for P=1 (requires at least 2 processes)
+Testing: Func 2, Mode 2, Tol 1e-6, P 2
+  Run 1 (Warm-up): 0.000140 s
+  Average Time: 0.000141 s
+Testing: Func 2, Mode 2, Tol 1e-6, P 4
+  Run 1 (Warm-up): 0.000143 s
+  Average Time: 0.000176 s
+Testing: Func 2, Mode 2, Tol 1e-6, P 8
+  Run 1 (Warm-up): 0.000219 s
+  Average Time: 0.000421 s
+Skipping Mode 2 for P=1 (requires at least 2 processes)
+Testing: Func 2, Mode 2, Tol 1e-8, P 2
+  Run 1 (Warm-up): 0.000218 s
+  Average Time: 0.000231 s
+Testing: Func 2, Mode 2, Tol 1e-8, P 4
+  Run 1 (Warm-up): 0.000194 s
+  Average Time: 0.000252 s
+Testing: Func 2, Mode 2, Tol 1e-8, P 8
+  Run 1 (Warm-up): 0.000432 s
+  Average Time: 0.000693 s
